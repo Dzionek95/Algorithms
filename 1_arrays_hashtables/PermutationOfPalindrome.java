@@ -5,31 +5,32 @@ class PermutationOfPalindrome{
 
 
     public static void main(String[] args){
-        String tesString="aabbcd".replaceAll("\\s+","").toLowerCase();
+        String testString="aabb";
 
 
-        System.out.println(checkIfPermutationOfPalindrome(tesString));
+        System.out.println(checkIfPermutationOfPalindrome(testString));
     }
 
-    private static boolean checkIfPermutationOfPalindrome(String tesString) {
-        int counter=0;
+    private static boolean checkIfPermutationOfPalindrome(String testString) {
+        testString=testString.replaceAll("\\s+","").toLowerCase();
         HashMap<Character, Integer> map= new HashMap<>();
-        for(int i=0; i<tesString.length();++i){
-            char checkChar=tesString.charAt(i);
+
+        for(int i=0; i<testString.length(); ++i){
+            char checkChar=testString.charAt(i);
             if(!map.containsKey(checkChar))
                 map.put(checkChar, 1);
             else
                 map.put(checkChar, map.get(checkChar)+1);
-
         }
+
         Collection<Integer> set= map.values();
+        int counter=0;
         for(int a:set){
             if(a%2!=0)
-                counter++;
+                ++counter;
         }
 
-        return counter<=1 ? true:false;
+        return counter<=1;
     }
-
 
 }

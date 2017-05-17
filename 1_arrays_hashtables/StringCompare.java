@@ -1,57 +1,61 @@
 
 import java.util.Scanner;
 import static java.lang.Math.*;
-public class main {
+public class StringCompare{
 
     public static void main(String ... args){
         Scanner sc=new Scanner(System.in);
         String firstString=sc.next();
         String secondString=sc.next();
-
-
         System.out.println(checkIfStringsAreAlmostSame(firstString,secondString));
     }
-
+    // Overall complexity of my algorithm should be less than O(n+m)
+    // In best case complexity is O(n)
     private static boolean checkIfStringsAreAlmostSame(String firstString, String secondString) {
-        boolean flag=false;
-        char[] arr1=firstString.toCharArray();
-        char[] arr2=secondString.toCharArray();
+        boolean returnFlag=false;
+        boolean stopFlag=true;
+        char[] firstStr=firstString.toCharArray();
+        char[] secondStr=secondString.toCharArray();
         int counter=0;
-        boolean flag2=true;
-        if(abs(arr1.length-arr2.length)>1)
-            return flag;
+
+        if(abs(firstStr.length-secondStr.length)>1)
+            return returnFlag;
         else {
-            for (int i = 0; i < arr1.length && i < arr2.length; ++i) {
-                if((arr1[i]=='\u0000' || arr2[i]=='\u0000'))
+            //O(n) we're entering first loop
+            for (int i = 0; i < firstStr.length && i < secondStr.length; ++i) {
+                if((firstStr[i]=='\u0000' || secondStr[i]=='\u0000'))
                     break;
-                if (arr1[i] != arr2[i]){
-                    if(arr1.length>arr2.length) {
-                        deleteValue(i, arr1);
+                if (firstStr[i] != secondStr[i]){
+                    if(firstStr.length>secondStr.length && stopFlag) {
+                        //O(n + m) if condition is true we're entering second (lazy) loop which deletes char
+                        deleteValue(i, firstStr);
                         --i;
+                        stopFlag=false;
                     }
-                    else if(arr1.length==arr2.length && flag2){
-                        arr1[i]=arr2[i];
+                    else if(firstStr.length==secondStr.length && stopFlag){
+                        firstStr[i]=secondStr[i];
                         --i;
-                        flag2=false;
+                        stopFlag=false;
                     }
                     else{
-                        deleteValue(i,arr2);
+                        //O(n + m)
+                        deleteValue(i,secondStr);
                         --i;
                     }
                 }
                 else{
-                    counter++;
+                    ++counter;
                 }
-                if(arr1.length<arr2.length){
-                    if(arr1.length==counter)
-                        flag=true;
+                if(firstStr.length<secondStr.length){
+                    if(firstStr.length==counter)
+                        returnFlag=true;
                 }
                 else {
-                    if(arr2.length==counter)
-                        flag=true;
+                    if(secondStr.length==counter)
+                        returnFlag=true;
                 }
             }
-            return flag;
+            return returnFlag;
         }
     }
 
